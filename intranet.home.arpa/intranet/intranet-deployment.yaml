@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: intranet-deployment
+  labels:
+    app: IntranetApp 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: intranet
+  template:
+    metadata:
+      labels:
+        app: intranet
+    spec:
+      containers:
+      - name: intranet
+        image: nginx
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - mountPath: /www/data
+          name: intranet-content-volume
+        - mountPath: /etc/nginx/sites-enabled/intranet.home.arpa
+          name: intranet-config
+        - mountPath: /etc/nginx/nginx.conf
+          name: nginx-conf
+      volumes:
+      - name: intranet-content-volume
+        hostPath:
+          path: /www/data
+      - name: intranet-config
+        hostPath:
+          path: /etc/nginx/sites-enabled/intranet.home.arpa
+      - name: nginx-conf
+        hostPath:
+          path: /etc/nginx/nginx.conf

@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agario-deployment
+  labels:
+    app: AgarioApp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: agario
+  template:
+    metadata:
+      labels:
+        app: agario
+    spec:
+      containers:
+      - name: agario
+        image: nicolaschan/open-agar:armv7
+        ports:
+        - containerPort: 3000
